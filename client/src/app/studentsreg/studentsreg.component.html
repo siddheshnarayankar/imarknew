@@ -1,0 +1,156 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 push-md-4">
+      <br>
+      <br>
+      <br>
+      <div class="card mb-3" *ngIf="!isValidLogin">
+        <div class="card-header">
+          <i class="fa fa-user"></i> <span>Student Login</span>
+        </div>
+
+
+
+        <div class="card-body mat-elevation-z8">
+          <div class="card-block">
+
+            <div class="student-login">
+
+              <form [formGroup]="loginStudForm" role="form" (ngSubmit)="onStudentLogin(loginStudForm)">
+                <alert></alert>
+                <div class="form-content">
+                  <div class="form-group">
+                    <input type="text" name="std_passcode" formControlName="std_passcode" class="form-control input-underline input-lg" placeholder="Enter Passcode"
+                      autofocus required>
+                  </div>
+                  <div class="form-group">
+                    <button mat-button class="btn btn-primary" type="submit">Login</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-3" *ngIf="isValidLogin">
+        <div class="card-header">
+          <i class="fa fa-user"></i> <span>Enter Student Details</span>
+        </div>
+        <div class="card-body mat-elevation-z8">
+ 
+          <div class="card-block">
+            <div class="student-data">
+
+
+              <form class="hidden" [formGroup]="candidateForm">
+                <alert></alert>
+
+                <div class="row">
+                  <div class="col-sm-4 offset-sm-4">
+
+                    <div class="form-group">
+
+                      <div class="file-field">
+                        <div class="input-f1">
+
+                          <img width="150px" *ngIf="!imageSrc" src="../assets/images/placeholder-avatar.jpg" class="rounded-circle z-depth-1-half avatar-pic"
+                            alt="example placeholder avatar">
+                          <img width="150px" *ngIf="imageSrc" [src]="imageSrc" class="
+                          z-depth-1-half avatar-pic" alt="example placeholder avatar">
+
+                        </div>
+                        <div class="input-f2">
+                          <div class="input-button btn btn-primary">
+                            <span>Add photo</span>
+                            <input id="photo" accept="image/*" type="file" (change)="onFileChange($event)" value="test" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <br>
+                <ng-container>
+                  <!--<app-dynamic-form [formData]="get_dealer_details.ordersField"></app-dynamic-form>-->
+                   
+                    <div class="row">
+                      <ng-template ngFor let-input [ngForOf]="get_dealer_details.ordersField">
+                        <ng-container [ngSwitch]="input.controlType">
+                          <ng-template [ngSwitchCase]="'text'">
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label [for]="input.controlName"> {{input.controlName}}</label>
+                                <input class="form-control" [formControlName]="input.controlName" [type]="input.valueType" [name]="input.controlName" [required]="input.validators.required"
+                                  [minlength]="input.validators.minlength" [maxlength]="input.validators.maxlength" />
+                                <div class="error" *ngIf="candidateForm.get(input.controlName).invalid && (candidateForm.get(input.controlName).dirty || candidateForm.get(input.controlName).touched)">
+                                  <div *ngIf="candidateForm.get(input.controlName).errors.required">
+                                    Input required
+                                  </div>
+                                  <div *ngIf="candidateForm.get(input.controlName).errors.minlength">
+                                    Minimum length is {{input.validators.minlength}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+
+                          <ng-template [ngSwitchCase]="'select'">
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label [for]="input.controlName"> {{input.controlName}}</label>
+                                <select class="form-control" [formControlName]="input.controlName" [name]="input.controlName" [id]="input.controlName" [required]="input.validators.required">
+            <option value="">{{input.placeholder}}</option>
+            <option *ngFor="let option of input.options" [value]="option.value"
+              >{{option.optionName}}</option
+            >
+          </select>
+                              </div>
+                            </div>
+                          </ng-template>
+
+                          <ng-template [ngSwitchCase]="'radio'">
+                            <div class="col-sm-4">
+                              <div *ngFor="let option of input.options" class="form-group row">
+                                <input class="form-control" [formControlName]="input.controlName" [type]="input.controlType" [name]="input.controlName" [value]="option.value"
+                                  [required]="input.validators.required" />
+                                <label [for]="input.controlName"> {{option.optionName}}</label>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </ng-container>
+                      </ng-template>
+
+                      <!--<button type="submit" mat-button class="btn btn-primary" [disabled]="candidateForm.invalid">Submit</button>-->
+                      <!--<div *ngIf="submitted">
+                        <pre>{{candidateForm.value | json}}</pre>
+                      </div>-->
+                    </div>
+                 
+                  <div class="clearfix"></div>
+
+                  <!--</div>-->
+
+                  <button mat-button class="btn btn-primary" [disabled]="!candidateForm.valid" *ngIf="!isSave" (click)="onCandidateForm(candidateForm)"  >Send</button>
+                  <button mat-button class="btn btn-primary" *ngIf="isSave" (click)="onCandidateUpdate(candidateForm)" >Update</button>
+                </ng-container>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+
+    <div>
+
+    </div>
+    <div>
+
+    </div>

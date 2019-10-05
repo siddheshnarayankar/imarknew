@@ -1,0 +1,100 @@
+<div class="col-sm-12 text-right">
+    <button type="button" mat-dialog-close class="close"><i class="fa fa-times" aria-hidden="true"></i></button>
+</div>
+<br>
+<h5>Create New Field</h5>
+<div class="alert alert-danger" *ngIf="fieldAlredyCreated" role="alert">Field alredy Created.</div>
+<mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+        <ng-template matStepLabel>Enter Fields </ng-template>
+        <form [formGroup]="firstFormGroup">
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <label for="name">Enter Field Name</label>
+                    <input type="text" class="form-control" (input)="inputCheck($event)" formControlName="fName" required id="email" required>
+                    <mat-error *ngIf="hasError('fName', 'required')"><span class="error f-12">Number required</span></mat-error>
+                    <mat-error *ngIf="duplicateName"><span class="error f-12">Name Already used</span></mat-error>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="name">Enter Placeholder</label>
+                    <input type="text" class="form-control" formControlName="fplaceholder" required id="email" required>
+                    <mat-error *ngIf="hasError('fplaceholder', 'required')"><span class="error f-12">Placeholder required</span></mat-error>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="exampleFormControlSelect2">Select Type</label>
+
+
+                    <!--<mat-label>Toppings</mat-label>-->
+                    <select #selectElem formControlName="fType" class="form-control" (change)="selectedTypes(selectElem.value)">
+                            <option *ngFor="let type of typeList" [value]="type.value">{{type.name}}</option>
+                   </select>
+
+
+                </div>
+                <div class="form-group col-sm-3" *ngIf="isOptions">
+                    <label for="exampleFormControlSelect2">Add Options</label>
+                    <div class="add-button">
+                        <a href="javascript:void(0);" style="font-size: 25px;" (click)="addNewRow()"><i class="fa fa-plus-square"  aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row" formArrayName="itemRows">
+                <div class="form-group col-sm-3" *ngFor="let itemrow of formArr.controls; let i=index" [formGroupName]="i">
+                    <label for="exampleFormControlSelect2">Option- {{i}}</label>
+                    <div class="input-group mb-3">
+                        <input type="text" formControlName="itemname" class="form-control">
+                        <div class="input-group-append">
+                            <a href="javascript:void(0);" style="font-size: 15px;
+    padding: 10px;
+    line-height: 20px;
+    display: inline-block;" *ngIf="formArr.controls.length > 0" (click)="deleteRow(i)"><i class="fa fa-trash-o"  aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <button (click)="first(firstFormGroup)" class="btn btn-primary" mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" [editable]="false">
+        <ng-template matStepLabel>Validations</ng-template>
+        <form [formGroup]="secondFormGroup">
+            <div class="row">
+                <div class="form-group col-sm-3">
+
+                    <mat-form-field>
+
+                        <mat-select placeholder="Validations" formControlName="sValidator" multiple (change)="selectedValidations($event.value)">
+                            <mat-option *ngFor="let item of validationsarr" [value]="item.value">{{item.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!--<select #selectElem formControlName="fType" class="form-control" (change)="selectedFields(selectElem.value)">
+                            <option *ngFor="let item of validationsarr" [value]="item.name">{{item.name}}</option>
+                 </select>-->
+                </div>
+                <div class="form-group col-sm-3" *ngIf="islength">
+                    <label for="Max">Enter Max length</label>
+                    <input type="text" class="form-control" formControlName="maxLength" required id="Max">
+                </div>
+                <div class="form-group col-sm-3" *ngIf="islength">
+                    <label for="Min">Enter Min length</label>
+                    <input type="text" class="form-control" formControlName="minLength" required id="Min">
+                </div>
+            </div>
+            <div class="form-group">
+                <button mat-button class="btn btn-default" matStepperPrevious>Back</button>
+                <button mat-button class="btn btn-primary" (click)="second(secondFormGroup)" matStepperNext>Submit</button>
+            </div>
+        </form>
+    </mat-step>
+    <!--<mat-step>
+        <ng-template matStepLabel>Validations</ng-template>
+    </mat-step>-->
+</mat-horizontal-stepper>
