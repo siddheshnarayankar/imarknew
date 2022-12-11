@@ -59,7 +59,7 @@
     "datatables.net-buttons-dt": "^1.4.2",
     "datatables.net-dt": "^1.10.16",
     "debug": "~2.6.9",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "file-saver": "^2.0.2",
     "font-awesome": "4.7.0",
     "fs-extra": "^8.1.0",
